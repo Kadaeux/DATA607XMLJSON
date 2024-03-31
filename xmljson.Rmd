@@ -33,7 +33,7 @@ booksJsonFile <- getURL("https://raw.githubusercontent.com/Kadaeux/DATA607XMLJSO
 booksJson <- fromJSON(booksJsonFile)
 
 jsondf <- booksJson$books
-jsondf
+head(jsondf)
 ```
 
 
@@ -52,7 +52,7 @@ Ok, so unlike JSON I still need to deconstruct the returned xml 'object' to buil
 booksMatrix <- t(xmlSApply(xmlRoot(booksXml), function(x) xmlSApply(x, xmlValue)))
 
 xmldf <- as.data.frame(booksMatrix)
-xmldf
+head(xmldf)
 ```
 
 This way, we still have the issue of authors being smashed together... that'll need to be cleaned. 
@@ -64,7 +64,7 @@ booksHtmlFile <- getURL("https://raw.githubusercontent.com/Kadaeux/DATA607XMLJSO
 booksHtml <- readHTMLTable(booksHtmlFile,header=TRUE)
 
 htmldf <- booksHtml$`NULL`
-htmldf
+head(htmldf)
 ```
 
 It looks like HTML table parsing uses some part of the table as a name, which I can access the same way I would a df column. Since I did not explicitly name it, it is accessible through 'null'. This is essentially the same basic way I access JSON. 
