@@ -1,0 +1,23 @@
+<books>
+     <book>
+         <title>Surely You're Joking, Mr. Feynman!</title>
+	 <authors>
+             <author>Ralph Leighton</author>
+             <author>Richard Feynman</author>
+	 </authors>
+         <subject>Physics</subject>
+         <length>350</length>
+     </book>
+     <book>
+         <title>The Hobbit</title>
+         <authors>John Ronald Reuel Tolkien</authors>
+         <subject>Fantasy</subject>
+         <length>310</length>
+     </book>
+     <book>
+         <title>A People's History of the United States</title>
+         <authors>Howard Zinn</authors>
+         <subject>American History</subject>
+         <length>729</length>
+     </book>
+ </books>

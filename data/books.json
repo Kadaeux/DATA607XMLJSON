@@ -1,0 +1,30 @@
+{
+	"books":
+	[
+		{
+			"title": "Surely You're Joking, Mr. Feynman!",
+			"authors": [
+				"Ralph Leighton",
+				"Richard Feynman"
+			],
+			"subject": "Physics",
+			"length":350
+		},
+		{
+			"title": "The Hobbit",
+			"authors": [
+				"John Ronald Reuel Tolkien"
+			],
+			"subject": "Fantasy",
+			"length": 310
+		},
+		{
+			"title": "A People's History of the United States",
+			"authors": [
+				"Howard Zinn"
+			],
+			"subject": "American History",
+			"length": 729
+		}
+	]
+}
