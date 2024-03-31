@@ -14,6 +14,8 @@ editor_options:
 
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+if("RCurl" %in% rownames(installed.packages()) == FALSE) {install.packages("RCurl")}
+library(RCurl)
 if("jsonlite" %in% rownames(installed.packages()) == FALSE) {install.packages("jsonlite")}
 library(jsonlite)
 if("XML" %in% rownames(installed.packages()) == FALSE) {install.packages("XML")}
@@ -22,13 +24,53 @@ library(XML)
 
 ## Overview
 
+This assignment goes over the parsing of different data storage formats, specifically HTML, JSON, and XML. I will examine building dataframes from these files and comparing their structure and ease of use.
 
+## JSON
 
-## Data Retrieval
+```{r get-data-json}
+booksJsonFile <- getURL("https://raw.githubusercontent.com/Kadaeux/DATA607XMLJSON/master/data/books.json")
+booksJson <- fromJSON(booksJsonFile)
 
-
-
-```{r get-data}
-
+jsondf <- booksJson$books
+jsondf
 ```
 
+
+## XML
+
+```{r get-data-xml}
+booksXmlFile <- getURL("https://raw.githubusercontent.com/Kadaeux/DATA607XMLJSON/master/data/books.xml")
+booksXml <- xmlParse(booksXmlFile)
+
+booksXml
+```
+
+Ok, so unlike JSON I still need to deconstruct the returned xml 'object' to build my dataframe. I'll do this by getting the root node, transforming the book nodes into a matrix, then transposing the matrix and reshaping to a dataframe.
+
+```{r xml-build-df}
+booksMatrix <- t(xmlSApply(xmlRoot(booksXml), function(x) xmlSApply(x, xmlValue)))
+
+xmldf <- as.data.frame(booksMatrix)
+xmldf
+```
+
+This way, we still have the issue of authors being smashed together... that'll need to be cleaned. 
+
+## HTML
+
+```{r get-data-html}
+booksHtmlFile <- getURL("https://raw.githubusercontent.com/Kadaeux/DATA607XMLJSON/master/data/books.html")
+booksHtml <- readHTMLTable(booksHtmlFile,header=TRUE)
+
+htmldf <- booksHtml$`NULL`
+htmldf
+```
+
+It looks like HTML table parsing uses some part of the table as a name, which I can access the same way I would a df column. Since I did not explicitly name it, it is accessible through 'null'. This is essentially the same basic way I access JSON. 
+
+## Conclusion
+
+HTML and JSON parsing result in very similar dataframes, with JSON producing vectors in nested objects; e.g. authors array turning into vector of names. HTML instead produced a comma delimited list. They were also both exceptionally easy to parse.
+
+XML was much more hands on and annoying to parse, even though I would say it was a more human-readable format than HTML. Its dataframe was much... dirtier, with the authors variable being concatenated without any delimination and therefore requires more effort to handle parsing.
